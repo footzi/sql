@@ -1,4 +1,5 @@
 https://www.w3schools.com/sql/sql_alter.asp
+про миграции - https://habr.com/ru/post/121265/?_ga=2.22580731.1525597107.1615402310-436888997.1607855722
 
 - DDL (Data Definition Language) - CREATE, ALTER, DROP
 - DML (Data Manipulation Language) - SELECT, INSERT, UPDATE, DELETE
@@ -49,13 +50,6 @@ VALUES
 (1, 'HARRY POTTER AND PH STONE', '01139999999'),
 (2, 'HARRY POTTER AND CHAMBER OF SECRETS', '01129999999')
 
-## Выборка
-SELECT * FROM book - выбрать все из таблицы
-SELECT DISTINCT name FROM book - выбрать только уникальные значения из столбца name
-
-## Where
-
-
 ## Добавление колонок в уже существующую таблицу
 ALTER TABLE book
 ADD COLUMN fk_publisher_id varchar(255);
@@ -82,4 +76,12 @@ book_id int REFERENCES book(book_id),
 author_id int REFERENCES author(author_id),
 	CONSTRAINT book_author_pkey PRIMARY KEY (book_id, author_id) -- composite key
 );
+
+## Выборка
+- SELECT *(все колонки) FROM products(название таблицы) - полная выборка всех столбцов
+- SELECT product_id, product_name, unit_price FROM products - выборка определенных столбцов
+- DISTINCT - выборка только уникальных значений - SELECT DISTINCT country FROM employees
+- COUNT - вывод кол-ва строк - SELECT COUNT (*) FROM orders / SELECT COUNT (DISTINCT country) FROM employees
+- WHERE - фильтрация c операциями сравнения (=, >, >=, <, <=, !=) - SELECT company_name, contact_name, phone FROM customers WHERE country = 'USA'
+- AND, OR - логические операции - SELECT * from orders WHERE freight > 30 AND ship_country = 'USA'
 
