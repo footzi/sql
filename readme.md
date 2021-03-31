@@ -115,5 +115,24 @@ author_id int REFERENCES author(author_id),
   SELECT product_name, suppliers.company_name, units_in_stock FROM products INNER JOIN suppliers ON products.supplier_id = suppliers.supplier_id ORDER BY units_in_stock DESC
 -  RIGHT JOIN - вторая таблица - зеркальное отображение LEFT
 - FULL JOIN - LEFT + RIGHT
-- CROSS JOIN - декартово произведение - каждой записи слева сопоставлются все записи справа
-- SELF JOIN
+- CROSS JOIN - декартово произведение - каждой записи слева сопоставляются все записи справа
+- SELF JOIN - для построения иерархии (если есть ссылка в таблице на саму себя)
+
+Пример:
+- Найти активные (см. поле discontinued) продукты из категории Beverages и Seafood, которых в продаже менее 20 единиц. Вывести наименование продуктов, кол-во единиц в продаже, имя контакта поставщика и его телефонный номер.
+
+SELECT product_name, category_name, contact_name, phone, units_in_stock FROM products <br>
+JOIN categories ON categories.category_id = products.category_id <br>
+JOIN suppliers ON suppliers.supplier_id = products.supplier_id <br>
+WHERE category_name IN ('Beverages', 'Seafood') AND units_in_stock < 20 AND discontinued = 0
+
+# USING
+- Сокращение записи в соединении
+- JOIN order_details ON orders.order_id = order_details.order_id - на JOIN order_details USING(order_id)
+
+# AS (псевдонимы)
+- SELECT COUNT(*) FROM employees - SELECT COUNT(*) AS employees_count FROM employees - переименовывает столбец count на employess_count
+- SELECT category_id, SUM(unit_price * units_in_stock) AS total_price (ORDER BY total_price DESC)
+
+# Подзапросы - запросы после выполнения основного запроса
+- SELECT company_name FROM suppliers WHERE county IN (SELECT DISTINCT country FROM customers)
